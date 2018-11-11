@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 public class CustomSecurityService implements SecurityServiceInterface {
 
-    private CustomAuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
