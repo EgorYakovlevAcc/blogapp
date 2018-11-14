@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div name="userProfile">
+        <H2> Your account </H2> <br>
+        Name:
+        <span th:text="${user.username}"></span> <br>
+        Email:
+        <span th:text="${user.email}"></span> <br>
+        ID in social network:
+        <span th:text="${user.id}"></span> <br>
+        <br>
+        <tr>
+            <td>
+                <input type="button" value="create new post">
+            </td>
+            <td>
+                <input type="button" value="settings">
+            </td>
+        </tr>
+
+        <a href="/index"> Main page</a>
+
+    </div>
+</body>
+</html>

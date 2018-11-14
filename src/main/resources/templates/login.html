@@ -6,12 +6,25 @@
 <body>
 <h1>Login page</h1>
 <p th:if="${loginError}" class="error">Wrong user or password!</p>
-<form th:action="@{/login.html}" method="post">
-    <label for="username">Username</label>:
-    <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
-    <label for="password">Password</label>:
-    <input type="password" id="password" name="password" /> <br />
-    <input type="submit" value="Log in" />
-</form>
+<form name='logForm' th:userDto="${user}" th:action="@{/login}" enctype="utf8" method="post">
+    <table>
+        <tr>
+            <td>User:</td>
+            <td><input type="text" th:field="*{user.username}"/></td>
+        </tr>
+
+        <tr>
+            <td>Password:</td>
+            <td><input type='password' th:field="*{user.password}"/></td>
+        </tr>
+        <tr>
+            <td><input name="login_button" type="submit" value="Login" /></td>
+            <td><input name="logout_button" type="submit" value="Logout" /></td>
+        </tr>
+        <tr>
+            <td><input name="registration_button" type="button" value="registration" a href = "/registration"/></td>
+        </tr>
+
+    </table>
 </body>
 </html>
