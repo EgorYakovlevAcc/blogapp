@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login page</title>
+    <meta charset="UTF-8">
+    <title>about blog</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>login</title>
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Web blog</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/">Main</a></li>
+            <li class="active"><a href="/login">login</a></li>
+            <li><a href="/registration">registration</a></li>
+            <li><a href="/create_post">create blog</a> </li>
+            <li><a href="/about">about blog</a></li>
+        </ul>
+    </div>
+</nav>
+
 <h1>Login page</h1>
 <p th:if="${loginError}" class="error">Wrong user or password!</p>
 <form name='logForm' th:userDto="${user}" th:action="@{/login}" enctype="utf8" method="post">
@@ -18,8 +43,8 @@
             <td><input type='password' th:field="*{user.password}"/></td>
         </tr>
         <tr>
-            <td><input name="login_button" type="submit" value="Login" /></td>
-            <td><input name="logout_button" type="submit" value="Logout" /></td>
+            <td><input name="login_button" type="submit" value="login" /></td>
+            <td><input name="logout_button" type="submit" value="logout"  th:action="@{/logout}"/></td>
         </tr>
         <tr>
             <td><input name="registration_button" type="button" value="registration" a href = "/registration"/></td>

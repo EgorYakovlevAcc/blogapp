@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${post.name}"></title>
+</head>
+<body>
+    <ul>
+        <li th:text="${post.topic}"></li>
+        <li th:text="${post.name}"></li>
+        <li th:text="${post.text}"></li>
+        <li th:text="${post.author}"></li>
+    </ul>
+    <input type="button" value="edit">
+    <H3>Comments: </H3> <br>
+        <ul th:each="comm: ${comments}">
+            <li th:text="'${comm.text}', \n '${comm.author}'"></li>
+        </ul>
+    <div th:if="authenticated">
+        <input type="text">
+        <input type="button" value="ok">
+    </div>
+</body>
+</html>

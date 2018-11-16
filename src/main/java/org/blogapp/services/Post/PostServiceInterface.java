@@ -8,7 +8,7 @@ public interface PostServiceInterface {
     void save(Post post);
 
     Post findPostById(Integer id);
-    List<Post> findPostsByTopicIsNotNull();
+    List<Post> findPostsByTopic(String topic);
     List<Post> findPostsByAuthor (String author);
 }
 

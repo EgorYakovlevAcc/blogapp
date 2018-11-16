@@ -1,5 +1,6 @@
 package org.blogapp.services.Post;
 
+import lombok.NoArgsConstructor;
 import org.blogapp.model.Post;
 import org.blogapp.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@NoArgsConstructor
 public class PostService implements PostServiceInterface {
     @Autowired
     private PostRepository repository;
@@ -22,8 +24,8 @@ public class PostService implements PostServiceInterface {
     }
 
     @Override
-    public List<Post> findPostsByTopicIsNotNull() {
-        return repository.findPostsByTopicIsNotNull();
+    public List<Post> findPostsByTopic(String topic) {
+        return repository.findPostsByTopic(topic);
     }
 
     @Override

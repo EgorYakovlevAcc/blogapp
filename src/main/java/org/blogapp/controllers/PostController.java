@@ -2,20 +2,24 @@ package org.blogapp.controllers;
 
 import org.blogapp.model.Post;
 import org.blogapp.repository.PostRepository;
+import org.blogapp.services.Comment.CommentService;
 import org.blogapp.services.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class PostController {
     @Autowired
     private PostService postService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping(value = "/create_post")
     public String createPost (Model model, String error) {
@@ -37,14 +41,12 @@ public class PostController {
         return "index";
     }
 
-    @GetMapping(value = "/all_posts")
-    public String showAllPosts (Model model, String error) {
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
-        model.addAttribute("posts", postService.findPostsByTopicIsNotNull());
-        return "all_posts";
+    @GetMapping(value = "/post/id", params = "id")
+    public String showAllPosts (Model model, @RequestParam Integer id) {
+        model.addAttribute("post", postService.findPostById(id));
+        model.addAttribute("comments", commentService
+                .findCommentsByPost(postService.findPostById(id)));
+        return "post";
     }
-
 
 }

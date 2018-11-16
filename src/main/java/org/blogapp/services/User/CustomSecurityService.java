@@ -1,8 +1,6 @@
-package org.blogapp.services;
+package org.blogapp.services.User;
 
 import lombok.NoArgsConstructor;
-import org.blogapp.services.User.CustomUserDetailsService;
-import org.blogapp.services.User.SecurityServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

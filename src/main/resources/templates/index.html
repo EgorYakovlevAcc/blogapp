@@ -13,27 +13,56 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-sm">
-    <!-- Контейнер (определяет ширину Navbar) -->
+<nav class="navbar navbar-default">
     <div class="container-fluid">
-        <!-- Заголовок -->
         <div class="navbar-header">
-            <!-- Бренд или название сайта (отображается в левой части меню) -->
-            <a class="navbar-brand" href="#">Ecrire</a>
-            <ul calss="navbar-nav">
-                <li class="nav-item">
-                    <a class=nav-link href="/login">login</a>
-                </li>
-                <li class="nav-item">
-                    <a class=nav-link href="/registration">registration</a>
-                </li>
-                <li class="nav-item">
-                    <a class=nav-link href="/about">about ecrire blog</a>
-                </li>
-            </ul>
+            <a class="navbar-brand" href="#">Web blog</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Main</a></li>
+            <li><a href="/login">login</a></li>
+            <li><a href="/registration">registration</a></li>
+            <li><a href="/create_post">create blog</a> </li>
+            <li><a href="/about">about blog</a></li>
+            <li><a href="/user_page" th:text="${name}"></a></li>
+        </ul>
     </div>
 </nav>
-<span th:text="${name}">Hello, </span>
+
+<H2>It is the main page of blog</H2>
+<div class="container">
+    <div class="row">
+    <div class="col-md-4">
+        <ul th:each="post : ${listPost}" class="list-group">
+            <li class="list-group-item"> <span th:text="${post.topic}"></span> <a th:href="@{'/post/id'(id=${post.id})}"> <span th:text=" ${post.name}"></span> </a>
+        </ul>
+    </div>
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <!-- card-header -->
+                <div class="card-header bg-danger text-white">
+                    Поиск постов по теме
+                </div>
+                <!-- card-body -->
+                <div class="card-body">
+                    <!-- HTML форма -->
+                    <form action="#" role="search">
+                        <div class="input-group">
+                            <input type="text" name="search_posts" class="form-control" placeholder="Тема" value="">
+                            <span class="input-group-btn">
+                    <button type="submit" class="btn btn-danger">Поиск</button>
+                </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="tag tag-info">
+        <span th:text="${name}"></span>
+    </div>
+</div>
 </body>
 </html>
