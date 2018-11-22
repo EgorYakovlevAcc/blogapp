@@ -3,6 +3,7 @@ package org.blogapp.services.Comment;
 import lombok.NoArgsConstructor;
 import org.blogapp.model.Comment;
 import org.blogapp.model.Post;
+import org.blogapp.model.User;
 import org.blogapp.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class CommentService implements CommentServiceInterface {
 
     @Override
     public List<Comment> findCommentsByPost(Post post) {
-        return commentRepository.findCommentsByOfPost(post);
+        return commentRepository.findCommentsByPost(post);
     }
+
+    @Override
+    public List<Comment> findCommentsByAuthor(User author) {
+        return commentRepository.findCommentsByAuthor(author);
+    }
+
 }

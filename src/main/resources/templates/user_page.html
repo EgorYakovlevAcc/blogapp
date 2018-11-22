@@ -19,7 +19,7 @@
             <a class="navbar-brand" href="#">Web blog</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Main</a></li>
+            <li><a href="#">Main</a></li>
             <li><a href="/login">login</a></li>
             <li><a href="/registration">registration</a></li>
             <li><a href="/create_post">create blog</a> </li>
@@ -58,11 +58,12 @@
         </thead>
         <tbody>
         <tr th:if="${posts.empty}">
-            <td> No books available </td>
+            <td> No posts available </td>
         </tr>
         <tr th:each="post : ${posts}">
             <td> <span th:text="${post.topic}">Topic</span></td>
-            <td> <span th:text="${post.name}">Name</span></td>
+            <td> <span th:text="${post.title}">Name</span></td>
+            <td><a th:href="@{/post/{postId}(postId=${post.id})}">show</a> </td>
         </tr>
         </tbody>
     </table>

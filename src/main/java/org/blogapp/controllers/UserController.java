@@ -2,6 +2,8 @@ package org.blogapp.controllers;
 
 import org.blogapp.model.Post;
 import org.blogapp.services.Post.PostService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.blogapp.validators.UserValidator;
 import org.blogapp.model.User;
@@ -79,13 +81,15 @@ public class UserController {
     public String welcome(Model model) {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("name", loggedInUser.getName());
+        model.addAttribute("posts", postService.findAll());
+        model.addAttribute("listPost", postService.findAll());
         return "index";
     }
 
     @GetMapping(value = {"/user_page/{id}"})
     public String user_page(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
-        model.addAttribute("posts", postService.findPostsByAuthor(userService.findUserById(id).getUsername()));
+        model.addAttribute("posts", postService.findPostsByAuthor(userService.findUserById(id)));
         return "user_page";
     }
 

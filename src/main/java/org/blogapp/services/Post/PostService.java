@@ -2,6 +2,7 @@ package org.blogapp.services.Post;
 
 import lombok.NoArgsConstructor;
 import org.blogapp.model.Post;
+import org.blogapp.model.User;
 import org.blogapp.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,12 @@ public class PostService implements PostServiceInterface {
     }
 
     @Override
-    public List<Post> findPostsByAuthor(String author) {
+    public List<Post> findPostsByAuthor(User author) {
         return repository.findPostsByAuthor(author);
+    }
+
+    @Override
+    public List<Post> findAll() {
+        return repository.findAll();
     }
 }

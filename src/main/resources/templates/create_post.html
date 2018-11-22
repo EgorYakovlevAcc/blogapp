@@ -24,7 +24,7 @@
             <li><a href="/login">login</a></li>
             <li><a href="/registration">registration</a></li>
             <li class="active"><a href="/create_post">create blog</a> </li>
-            <li><a href="/about">about blog</a></li>
+            <li class="active"><a href="/about">about blog</a></li>
         </ul>
     </div>
 </nav>
@@ -35,8 +35,8 @@
         <tr>
             <td>Post:</td>
             <tr>
-                Name:
-                <input type="text" th:field="${post.name}"/>
+                Title:
+                <input type="text" th:field="${post.title}"/>
                 <br>
             </tr>
             <tr>Topic: <br>
@@ -48,11 +48,6 @@
                 <textarea th:field="${post.text}"/>
                 <br>
             </tr>
-        <tr>
-            Author: <br>
-            <input type="text" th:field="${post.author}"/>
-            <br>
-        </tr>
 
         <tr>
             <td><input name="create_post_button" type="submit" value="create" /></td>
