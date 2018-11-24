@@ -36,11 +36,15 @@
     <li th:text="${post.title}"></li>
     <li th:text="${post.text}"></li>
     <li th:text="${post.author.username}"></li>
+    <li th:text="${post.views}"></li>
 </ul>
 <div th:if="${isAuthor}">
     <input type="button" value="edit">
 </div>
-<div>
+<form th:action="@{/post/{id}/like (id = ${post.id})}" method="post">
+    <button type="submit" class="btn btn-outline-warning"><span th:text="${likes}"></span></button>
+</form>
+    <div>
     <H3>Comments: </H3> <br>
     <ul th:each="comm: ${comments}">
         <li>

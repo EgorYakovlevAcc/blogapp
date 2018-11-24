@@ -9,6 +9,7 @@ import org.blogapp.services.Post.PostService;
 import org.blogapp.services.User.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,26 +37,44 @@ public class PostController {
     }
 
     @PostMapping(value = "/create_post")
-    public String createPost (@ModelAttribute("post") Post post, BindingResult bindingResult, Model model) {
+    public String createPost (@ModelAttribute("post") Post post, BindingResult bindingResult, Model model, @AuthenticationPrincipal User user) {
         if (bindingResult.hasErrors()) {
             return "create_post";
         }
-        post.setAuthor(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        post.setAuthor(userService.findByUsername(user.getUsername()));
         postService.save(post);
         return "redirect:/index";
     }
 
     @GetMapping(value = "/post/{id}")
-    public String showAllPosts (Model model, @PathVariable("id") int id) {
+    public String showAllPosts (Model model, @PathVariable("id") int id, @AuthenticationPrincipal User user) {
         boolean isAuthor = SecurityContextHolder.getContext().getAuthentication()
                 .getName().equals(postService.findPostById(id).getAuthor());
-        System.out.println("isAuthor " + isAuthor);
         model.addAttribute("post", postService.findPostById(id));
+        System.out.println("Likes: "+  postService.findPostById(id).getLikes().size());
+        model.addAttribute("likes", postService.findPostById(id).getLikes().size());
+        model.addAttribute("views", postService.findPostById(id).getViews().size());
         model.addAttribute("isAuthor", isAuthor);
         model.addAttribute("comments", commentService
                 .findCommentsByPost(postService.findPostById(id)));
         model.addAttribute("comment", new Comment());
+
+
         return "post";
+    }
+
+
+    @PostMapping(value = "/post/{id}/like")
+    public String addLikeToPost (Model model, @PathVariable("id") int id, @AuthenticationPrincipal User user) {
+        Post post = postService.findPostById(id);
+        if (post.getLikes().contains(user)) {
+            post.getLikes().remove(user);
+        }
+        else {
+            post.getLikes().add(user);
+        }
+        postService.save(post);
+        return "redirect:/post/{id}";
     }
 
 }

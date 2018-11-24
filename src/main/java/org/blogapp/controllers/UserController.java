@@ -1,6 +1,7 @@
 package org.blogapp.controllers;
 
 import org.blogapp.model.Post;
+import org.blogapp.model.Role;
 import org.blogapp.services.Post.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.blogapp.services.User.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,7 @@ public class UserController {
     @PostMapping(value = "/registration")
     public String registration(@ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
        userValidator.validate(user, bindingResult);
+       user.setRole(Role.USER);
         if (bindingResult.hasErrors()) {
             return "registration";
         }
@@ -90,21 +93,38 @@ public class UserController {
     public String user_page(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("posts", postService.findPostsByAuthor(userService.findUserById(id)));
+        model.addAttribute("subs", userService.findUserById(id).getSubscription());
+        model.addAttribute("followers", userService.findUserById(id).getFollowers());
         return "user_page";
     }
 
     @GetMapping(value = {"/user_page"})
     public RedirectView redirectWithUsingRedirectView(
-            RedirectAttributes attributes) {
-        attributes.addAttribute("id", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId());
+            RedirectAttributes attributes, @AuthenticationPrincipal User user) {
+        attributes.addAttribute("id", userService.findByUsername(user.getUsername()).getId());
         return new RedirectView("/user_page/{id}");
     }
 
     @GetMapping(value = {"/", "/index"}, params = "search_posts")
     public String searchPosts (Model model, @RequestParam("search_posts") String search_posts) {
-        System.out.println("Topic: " + search_posts);
         List<Post> listPost = postService.findPostsByTopic(search_posts);
         model.addAttribute("listPost", listPost);
         return "/index";
+    }
+
+    @PostMapping(value = {"/user_page/{id}/follow"})
+    public String follow (Model model, @AuthenticationPrincipal User user, @PathVariable("id") int id) {
+        User followedUser = userService.findUserById(id);
+        if (user.getFollowers().contains(followedUser)) {
+            System.out.println("Egorka");
+            user.getFollowers().remove(followedUser);
+            System.out.println(user.getFollowers().size());
+        }
+        else {
+            user.getFollowers().add(followedUser);
+        }
+
+        userService.save(user);
+        return "redirect:/user_page/{id}";
     }
 }

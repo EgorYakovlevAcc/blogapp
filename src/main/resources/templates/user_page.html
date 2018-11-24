@@ -44,7 +44,9 @@
                 <input type="button" value="settings">
             </td>
         </tr>
-
+        <form th:action="@{/user_page/{id}/follow (id = ${user.id})}" method="post">
+            <button type="submit" class="btn btn-primary">follow</button>
+        </form>
         <a href="/index"> Main page</a>
 
     </div>
@@ -69,5 +71,14 @@
     </table>
 
 </form>
+My followers: <br>
+<ul th:each="follower: ${followers}">
+    <li> <span th:text="${follower.username}"></span></li>
+</ul>
+<br>
+My subscriptions: <br>
+<ul th:each=" sub: ${subs}">
+    <li><span th:text="${sub.username}"></span></li>
+</ul>
 </body>
 </html>

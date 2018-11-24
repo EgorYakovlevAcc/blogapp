@@ -32,5 +32,20 @@ public class Post {
     @OneToMany (mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    @ManyToMany
+    @JoinTable(
+            name = "post_likes",
+            joinColumns = { @JoinColumn(name = "post_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private List<User> likes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_views",
+            joinColumns = { @JoinColumn(name = "post_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private List<User> views;
 
 }

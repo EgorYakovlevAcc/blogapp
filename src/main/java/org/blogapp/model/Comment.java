@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +32,14 @@ public class Comment {
     @JoinColumn(name = "post_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
+
+//    @OneToMany(mappedBy = "subComments", cascade = CascadeType.ALL)
+//    private List<Comment> subComments;
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "post_id", nullable = false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private  Comment parent;
 
     private Date date;
 }
