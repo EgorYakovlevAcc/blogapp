@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>about blog</title>
@@ -14,20 +14,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Web blog</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">Main</a></li>
-            <li><a href="/login">login</a></li>
-            <li><a href="/registration">registration</a></li>
-            <li><a href="/create_post">create blog</a> </li>
-            <li class="active"><a href="/about">about blog</a></li>
-        </ul>
-    </div>
-</nav>
+<div th:insert="blocks/navbar"></div>
 <H2>
     All information about this blog will be here!
 </H2>

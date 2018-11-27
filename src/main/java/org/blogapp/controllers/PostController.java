@@ -1,5 +1,6 @@
 package org.blogapp.controllers;
 
+import com.google.common.collect.Maps;
 import org.blogapp.model.Comment;
 import org.blogapp.model.Post;
 import org.blogapp.model.User;
@@ -9,6 +10,7 @@ import org.blogapp.services.Post.PostService;
 import org.blogapp.services.User.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PostController {
@@ -28,7 +32,7 @@ public class PostController {
     private CustomUserService userService;
 
     @GetMapping(value = "/create_post")
-    public String createPost (Model model, String error) {
+    public String createPost(Model model, String error) {
         if (error != null) {
             model.addAttribute("error", error);
         }
@@ -37,7 +41,7 @@ public class PostController {
     }
 
     @PostMapping(value = "/create_post")
-    public String createPost (@ModelAttribute("post") Post post, BindingResult bindingResult, Model model, @AuthenticationPrincipal User user) {
+    public String createPost(@ModelAttribute("post") Post post, BindingResult bindingResult, Model model, @AuthenticationPrincipal User user) {
         if (bindingResult.hasErrors()) {
             return "create_post";
         }
@@ -47,11 +51,15 @@ public class PostController {
     }
 
     @GetMapping(value = "/post/{id}")
-    public String showAllPosts (Model model, @PathVariable("id") int id, @AuthenticationPrincipal User user) {
+    public String showAllPosts(Model model, @PathVariable("id") int id, @AuthenticationPrincipal User user) {
+        if (!postService.findPostById(id).getViews().contains(user)) {
+            postService.findPostById(id).getViews().add(user);
+            postService.save(postService.findPostById(id));
+        }
         boolean isAuthor = SecurityContextHolder.getContext().getAuthentication()
                 .getName().equals(postService.findPostById(id).getAuthor());
         model.addAttribute("post", postService.findPostById(id));
-        System.out.println("Likes: "+  postService.findPostById(id).getLikes().size());
+        System.out.println("Likes: " + postService.findPostById(id).getLikes().size());
         model.addAttribute("likes", postService.findPostById(id).getLikes().size());
         model.addAttribute("views", postService.findPostById(id).getViews().size());
         model.addAttribute("isAuthor", isAuthor);
@@ -65,16 +73,18 @@ public class PostController {
 
 
     @PostMapping(value = "/post/{id}/like")
-    public String addLikeToPost (Model model, @PathVariable("id") int id, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Map> addLikeToPost(Model model, @PathVariable("id") int id, @AuthenticationPrincipal User user) {
         Post post = postService.findPostById(id);
         if (post.getLikes().contains(user)) {
             post.getLikes().remove(user);
-        }
-        else {
+        } else {
             post.getLikes().add(user);
         }
         postService.save(post);
-        return "redirect:/post/{id}";
+        Map map = new HashMap();
+        map.put("value", post.getLikes().size());
+        return ResponseEntity.ok(map);
+//        return "redirect:/post/{id}";
     }
 
 }

@@ -3,69 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
     <title th:text="${user.username}"></title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Web blog</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="#">Main</a></li>
-            <li><a href="/login">login</a></li>
-            <li><a href="/registration">registration</a></li>
-            <li><a href="/create_post">create blog</a> </li>
-            <li><a href="/about">about blog</a></li>
-        </ul>
-    </div>
-</nav>
-    <div name="userProfile">
-        <H2> Your account </H2> <br>
-        Name:
-        <span th:text="${user.username}"></span> <br>
-        Email:
-        <span th:text="${user.email}"></span> <br>
-        ID in social network:
-        <span th:text="${user.id}"></span> <br>
-        <br>
-        <tr>
-            <td>
-                <input type="button" value="create new post">
-            </td>
-            <td>
-                <input type="button" value="settings">
-            </td>
-        </tr>
+<div th:insert="blocks/navbar"></div>
+<div name="userProfile">
+    <H2> Your account </H2> <br>
+    Name:
+    <span th:text="${user.username}"></span> <br>
+    Email:
+    <span th:text="${user.email}"></span> <br>
+    ID in social network:
+    <span th:text="${user.id}"></span> <br>
+    <br>
+    <tr>
+        <td>
+            <input type="button" value="create new post">
+        </td>
+        <td>
+            <input type="button" value="settings">
+        </td>
+    </tr>
+    <div th:if="${isSame}">
         <form th:action="@{/user_page/{id}/follow (id = ${user.id})}" method="post">
             <button type="submit" class="btn btn-primary">follow</button>
         </form>
-        <a href="/index"> Main page</a>
-
     </div>
+    <a href="/index"> Main page</a>
+
+</div>
 <form name='all_user_posts_form' th:action="@{/all_posts}" th:value="posts" enctype="utf8" method="post">
     <table>
         <thead>
         <tr>
-            <th> Topic </th>
-            <th> Title </th>
+            <th> Topic</th>
+            <th> Title</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${posts.empty}">
-            <td> No posts available </td>
+            <td> No posts available</td>
         </tr>
         <tr th:each="post : ${posts}">
-            <td> <span th:text="${post.topic}">Topic</span></td>
-            <td> <span th:text="${post.title}">Name</span></td>
-            <td><a th:href="@{/post/{postId}(postId=${post.id})}">show</a> </td>
+            <td><span th:text="${post.topic}">Topic</span></td>
+            <td><span th:text="${post.title}">Name</span></td>
+            <td><a th:href="@{/post/{postId}(postId=${post.id})}">show</a></td>
         </tr>
         </tbody>
     </table>
@@ -73,7 +66,7 @@
 </form>
 My followers: <br>
 <ul th:each="follower: ${followers}">
-    <li> <span th:text="${follower.username}"></span></li>
+    <li><span th:text="${follower.username}"></span></li>
 </ul>
 <br>
 My subscriptions: <br>

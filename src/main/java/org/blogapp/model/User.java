@@ -6,10 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -33,21 +30,21 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_followers", joinColumns = {@JoinColumn(name = "channel_id")},
-    inverseJoinColumns = {@JoinColumn(name = "subscriber_id")})
-    //те, на кого я подписан
-    private List<User> followers;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(/*fetch = FetchType.EAGER, cascade = CascadeType.PERSIST*/)
     @JoinTable(name = "user_followers", joinColumns = {@JoinColumn(name = "subscriber_id")},
-            inverseJoinColumns = {@JoinColumn(name = "channel_id")})
+    inverseJoinColumns = {@JoinColumn(name = "channel_id")})
+    //те, на кого я подписан
+    private Set<User> followers = new HashSet<User>();
+
+    @ManyToMany(/*fetch = FetchType.EAGER*/ /*cascade = CascadeType.PERSIST*/)
+    @JoinTable(name = "user_followers", joinColumns = {@JoinColumn(name = "channel_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subscriber_id")})
     //те, кто подписался на меня
-    private List<User> subscription;
+    private Set<User> subscription = new HashSet<User>();
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
-    private Role role = Role.USER;
+    private Role role;
 
     public User(String username, String password) {
         this.username = username;
@@ -57,7 +54,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(role);
+        return Arrays.asList(Role.USER);
     }
 
     @Override

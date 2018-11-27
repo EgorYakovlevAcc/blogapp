@@ -1,0 +1,20 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Web blog</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="#">Main</a></li>
+            <li><a href="/login">login</a></li>
+            <li><a href="/registration">registration</a></li>
+            <li><a href="/create_post">create blog</a></li>
+            <li><a href="/about">about blog</a></li>
+            <li><a href="/user_page" th:text="${name}"></a></li>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                       name="search_posts">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" role="search_post">Search</button>
+            </form>
+        </ul>
+    </div>
+</nav>

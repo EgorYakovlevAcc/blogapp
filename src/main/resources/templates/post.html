@@ -15,46 +15,98 @@
             crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title th:text="${post.title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{styles/comment.css}"/>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Web blog</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">Main</a></li>
-            <li><a href="/login">login</a></li>
-            <li><a href="/registration">registration</a></li>
-            <li><a href="/create_post">create blog</a> </li>
-            <li><a href="/about">about blog</a></li>
-        </ul>
-    </div>
-</nav>
-<ul>
-    <li th:text="${post.topic}"></li>
-    <li th:text="${post.title}"></li>
-    <li th:text="${post.text}"></li>
-    <li th:text="${post.author.username}"></li>
-    <li th:text="${post.views}"></li>
-</ul>
+<div th:insert="blocks/navbar"></div>
+<table class="table borderless">
+    <tbody>
+        <tr>
+            <td>
+               Topic
+            </td>
+            <td th:text="${post.topic}">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Title
+            </td>
+            <td th:text="${post.title}">
+            </td>
+        </tr>
+        <tr>
+            <td>
+               Text
+            </td>
+            <td th:text="${post.text}">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Author
+            </td>
+            <td th:text="${post.author.username}">
+            </td>
+        </tr>
+    </tbody>
+</table>
 <div th:if="${isAuthor}">
     <input type="button" value="edit">
 </div>
-<form th:action="@{/post/{id}/like (id = ${post.id})}" method="post">
-    <button type="submit" class="btn btn-outline-warning"><span th:text="${likes}"></span></button>
-</form>
-    <div>
-    <H3>Comments: </H3> <br>
-    <ul th:each="comm: ${comments}">
-        <li>
-            <p th:text="${comm.message + ', ' + comm.author.username}"></p>
-        </li>
-    </ul>
-    <form th:action="@{/add_comment/{id}(id=${post.id})}" th:value="comment" method="post">
-        <input type="text" th:field="${comment.message}">
-        <input type="submit" value="ok">
+<div class="col-md-1 col-md-offset-11">
+    <!---->
+    likes
+    <form  th:action="@{/post/{id}/like (id = ${post.id})}" method="post">
+        <button type="submit" class="btn btn-outline-warning"><span th:text="${likes}" id="likesLabel"></span></button>
     </form>
 </div>
+<div class="col-md-2 col-md-offset-10">
+    <div class="bg-primary">
+        <p class="text-center">
+            Views: <span th:text="${views}"></span>
+        </p>
+    </div>
+</div>
+<br>
+<H3>Comments: </H3> <br>
+    <div class="comments">
+        <ul th:each="comment : ${comments}">
+            <li th:text="${comment.message}"></li>
+        </ul>
+    </div>
+<form th:value="comment" th:action="@{/add_comment/{id}(id=${post.id})}" method="post">
+    <input type="text" th:field="${comment.message}" id="message" name="message">
+    <button id="sendComment">send</button>
+</form>
+<button id="btn" onclick="Ajax()">button</button>
+<span id="fieldM"></span>
+<div id="cont">
+
+</div>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script th:inline="javascript">
+    function Ajax() {
+        /*<![CDATA[*/
+        var _csrf_token = [[${_csrf.token}]];
+        var _csrf_param_name = [[${_csrf.parameterName}]];
+        /*]]>*/
+        var requestData = {
+            'paramA': 123,
+            'paramB': 333
+        };
+        requestData[_csrf_param_name] = _csrf_token; // Adds the token
+
+        var ident = [[${post.id}]];
+        $.ajax({
+            type: "POST",
+            url:  ident + "/like",
+            data: requestData,
+            success: function (body) {
+                $("#likesLabel").html(body.value);
+            }
+        });
+    }
+</script>
 </body>
 </html>

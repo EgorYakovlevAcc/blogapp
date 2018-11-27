@@ -18,27 +18,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Web blog</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Main</a></li>
-            <li><a href="/login">login</a></li>
-            <li><a href="/registration">registration</a></li>
-            <li><a href="/create_post">create blog</a></li>
-            <li><a href="/about">about blog</a></li>
-            <li><a href="/user_page" th:text="${name}"></a></li>
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                       name="search_posts">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" role="search_post">Search</button>
-            </form>
-        </ul>
-    </div>
-</nav>
-
+<div th:insert="blocks/navbar"></div>
 <H2>It is the main page of blog</H2>
 <div class="row">
     <div class="col-md-4 col-md-offset-1">
@@ -47,7 +27,7 @@
                 <h1 class="display-4"><span th:text="${post.title}"</span> </h1>
                 <p class="lead"><span th:text="${post.topic}"></span></p>
                 <hr class="my-4">
-                <p><span th:text="${post.author.username}"></span></p>
+                <p th:href="@{/user_page/{id} (id = ${post.author.id})}"><span th:text="${post.author.username}"></span></p>
                 <p class="lead">
                     <a th:href="@{/post/{id}(id = ${post.id})}">
                         <div class="btn btn-primary btn-lg" role="button">read it</div>

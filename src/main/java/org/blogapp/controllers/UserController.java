@@ -90,11 +90,14 @@ public class UserController {
     }
 
     @GetMapping(value = {"/user_page/{id}"})
-    public String user_page(@PathVariable("id") int id, Model model) {
+    public String user_page(@PathVariable("id") int id, Model model, @AuthenticationPrincipal User user) {
+        boolean isSame = !user.equals(userService.findUserById(id));
+        model.addAttribute("isSame", isSame);
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("posts", postService.findPostsByAuthor(userService.findUserById(id)));
         model.addAttribute("subs", userService.findUserById(id).getSubscription());
         model.addAttribute("followers", userService.findUserById(id).getFollowers());
+        System.out.println("THE SIZE OF ARRAY: " + userService.findUserById(id).getFollowers().size());
         return "user_page";
     }
 
@@ -114,16 +117,22 @@ public class UserController {
 
     @PostMapping(value = {"/user_page/{id}/follow"})
     public String follow (Model model, @AuthenticationPrincipal User user, @PathVariable("id") int id) {
-        User followedUser = userService.findUserById(id);
-        if (user.getFollowers().contains(followedUser)) {
-            System.out.println("Egorka");
-            user.getFollowers().remove(followedUser);
-            System.out.println(user.getFollowers().size());
+//        User followedUser = userService.findUserById(id);
+//        if (!user.getFollowers().contains(followedUser)) {
+//            user.getFollowers().add(followedUser);
+//        }
+//        else {
+//            System.out.println("I delete you");
+//            user.getFollowers().remove(followedUser);
+//        }
+        if (!userService.findByUsername(user.getUsername()).getFollowers().contains(userService.findUserById(id))) {
+            userService.findByUsername(user.getUsername()).getFollowers().add(userService.findUserById(id));
+            System.out.println("INTO IF: ");
         }
         else {
-            user.getFollowers().add(followedUser);
+            userService.findByUsername(user.getUsername()).getFollowers().remove(userService.findUserById(id));
+            System.out.println("INTO ELSE: ");
         }
-
         userService.save(user);
         return "redirect:/user_page/{id}";
     }

@@ -14,20 +14,7 @@
     <title>create new post</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Web blog</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">Main</a></li>
-            <li><a href="/login">login</a></li>
-            <li><a href="/registration">registration</a></li>
-            <li class="active"><a href="/create_post">create blog</a> </li>
-            <li class="active"><a href="/about">about blog</a></li>
-        </ul>
-    </div>
-</nav>
+<div th:insert="blocks/navbar"></div>
 
 <h1>New posts</h1>
 <form name='create_post_form' th:action="@{/create_post}" th:value="post" enctype="utf8" method="post">
