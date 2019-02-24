@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>confirm code</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <script src="js/bootstrap.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/animate.css">
+    <link rel="stylesheet" href="styles/about.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+<header id="header" class="header">
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col lg-3">-->
+                <!--<div class="header__label">-->
+                    <!--<a href="/"> ecrire </a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col lg-5 ml-auto">-->
+                <!--<nav>-->
+                    <!--<ul class="menu d-flex justify-content-center">-->
+                        <!--<li class="menu__item">-->
+                            <!--<a href="/logout">logout</a>-->
+                        <!--</li>-->
+                        <!--<li class="menu__item">-->
+                            <!--<a href="/news">news</a>-->
+                        <!--</li>-->
+                        <!--<li class="menu__item">-->
+                            <!--<a href="/about">about</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</nav>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+</header>
+<section>
+   <div class="container">
+       <div class="row">
+           <div class="col-lg-6 ml-auto">
+               <div class="confirmForm">
+                   <form th:action="@{/confirm}" method="POST">
+                       <input type="text" placeholder="input your activation code"  th:name="code" id="code_text"/>
+                       <button type="submit">check code</button>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
+</section>
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="credits">
+                    Egor Yakovlev <br> Russia <br> 2019
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="contacts">
+                    yakovlev.es@phystech.edu <br> Russia, Moscow
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

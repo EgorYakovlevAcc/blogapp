@@ -1,77 +1,183 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>user_page</title>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <title th:text="${user.username}"></title>
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../styles/animate.css">
+    <link rel="stylesheet" href="../styles/profile.css">
+    <link rel="stylesheet" href="../styles/forms.css">
+    <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
-<div th:insert="blocks/navbar"></div>
-<div name="userProfile">
-    <H2> Your account </H2> <br>
-    Name:
-    <span th:text="${user.username}"></span> <br>
-    Email:
-    <span th:text="${user.email}"></span> <br>
-    ID in social network:
-    <span th:text="${user.id}"></span> <br>
-    <br>
-    <tr>
-        <td>
-            <input type="button" value="create new post">
-        </td>
-        <td>
-            <input type="button" value="settings">
-        </td>
-    </tr>
-    <div th:if="${isSame}">
-        <form th:action="@{/user_page/{id}/follow (id = ${user.id})}" method="post">
-            <button type="submit" class="btn btn-primary">follow</button>
-        </form>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">edit user's profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <ul>
+                        <li>
+                            <input type="password" placeholder="password">
+                        </li>
+                        <li>
+                            <input type="password" placeholder="repeat password">
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">confirm</button>
+            </div>
+        </div>
     </div>
-    <a href="/index"> Main page</a>
-
 </div>
-<form name='all_user_posts_form' th:action="@{/all_posts}" th:value="posts" enctype="utf8" method="post">
-    <table>
-        <thead>
-        <tr>
-            <th> Topic</th>
-            <th> Title</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${posts.empty}">
-            <td> No posts available</td>
-        </tr>
-        <tr th:each="post : ${posts}">
-            <td><span th:text="${post.topic}">Topic</span></td>
-            <td><span th:text="${post.title}">Name</span></td>
-            <td><a th:href="@{/post/{postId}(postId=${post.id})}">show</a></td>
-        </tr>
-        </tbody>
-    </table>
 
-</form>
-My followers: <br>
-<ul th:each="follower: ${followers}">
-    <li><span th:text="${follower.username}"></span></li>
-</ul>
-<br>
-My subscriptions: <br>
-<ul th:each=" sub: ${subs}">
-    <li><span th:text="${sub.username}"></span></li>
-</ul>
+<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-3">
+                <div class="header__label">
+                    <a href="/"> ecrire </a>
+                </div>
+            </div>
+            <div class="col lg-5 ml-auto">
+                <nav>
+                    <ul class="menu d-flex justify-content-center">
+                        <li class="menu__item">
+                            <a href="/logout">logout</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/create_post">create post</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/news">news</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/about">about</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</header>
+<section id="profile" class="profile">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-3">
+                <div class="avatar">
+                    <img src="../img/default.png" alt="avatar" class="avatar">
+                    <i class="fa fa-pencil-square-o change__icon" aria-hidden="true" style="vertical-align: bottom"></i>
+                </div>
+            </div>
+            <div class="col lg-9 ml-auto" style="text-align: right; border: 5px solid #fffea9; border-radius: 5px;">
+                <p th:text="${user.username}"></p>
+                <ul>
+                    <li class="profile__item">
+                        <i class="fa fa-pencil-square-o change__icon" aria-hidden="true"></i> email:
+                        <p th:text="${user.email}"></p>
+                    </li>
+                    <li class="profile__item">
+                        <div class="follow__form" th:if="${notSame}">
+                            <form th:action="@{{id}/follow (id = ${user.id})}" method="POST">
+                                <button class="btn btn-primary btn_edit">
+                                    follow me
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                followers:
+                <ul th:each="follower: ${followers}" id = 'followerList'>
+                    <li th:text="${follower.username}"></li>
+                </ul>
+            </div>
+        </div>
+</section>
+<section class="posts" id="posts">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-12">
+                <ul class="post__items" th:each="post : ${posts}">
+                    <span th:if="${posts.empty}">
+                        No posts available
+                    </span>
+                    <li class="post__item d-flex">
+                        <div class="col lg-4">
+                            <p th:text="${post.topic}"></p>
+                        </div>
+                        <div class="col lg-4">
+                            <p th:text="${post.title}"></p>
+                        </div>
+                        <div class="col lg-4">
+                            <p> date </p>
+                        </div>
+                        <div class="col lg-4">
+                            <a th:href="@{/post/{postId}(postId=${post.id})}">
+                                <button type="button" class="btn btn-primary btn_show">show</button>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-6">
+                <div class="credits">
+                    Egor Yakovlev <br> Russia <br> 2019
+                </div>
+            </div>
+            <div class="col lg-6">
+                <div class="contacts">
+                    yakovlev.es@phystech.edu <br> Russia, Moscow
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script th:inline="javascript">
+    var _csrf_token = [[${_csrf.token}]];
+    var _csrf_param_name = [[${_csrf.parameterName}]];
+
+    var requestData = {};
+    requestData[_csrf_param_name] = _csrf_token;
+
+    function doAjax() {
+        id = $[[user.id]];
+        $.ajax( {
+            type: "POST",
+            url: id + "/follow",
+            data: requestData,
+            success: function (map) {
+                for (let i = 0; i < map.length; i++) {
+                    $('#followerList').append('<li>' + map.i + '</li>');
+                }
+            }
+
+        });
+    }
+</script>
 </body>
 </html>

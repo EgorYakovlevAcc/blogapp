@@ -1,0 +1,35 @@
+a {
+    color: #fffea9;
+}
+.news__item {
+    margin: 20px;
+    background: #000124;
+    color: #fffea9;
+    font-family: 'Major Mono Display', monospace;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+.user__item {
+    font-family: 'Slabo 27px', serif;
+    color: #fffea9;
+    text-transform: lowercase;
+}
+
+.news__item a:hover {
+    text-decoration: none;
+    color: #333333;
+    transition: all 0.3s ease;
+}
+
+.user__item a:hover {
+    text-decoration: none;
+    color: #333333;
+    transition: all 0.3s ease;
+}
+
+.list__user {
+    background: #000124;
+    text-align: center;
+    margin: 20px;
+}

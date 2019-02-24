@@ -1,18 +1,17 @@
 package org.blogapp.controllers;
 
-import org.blogapp.model.Post;
-import org.blogapp.model.Role;
+import org.blogapp.model.*;
+import org.blogapp.services.Email.EmailService;
 import org.blogapp.services.Post.PostService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.blogapp.validators.UserValidator;
-import org.blogapp.model.User;
+import org.blogapp.services.Subscriber.SubscriberService;
 import org.blogapp.services.User.CustomSecurityService;
 import org.blogapp.services.User.CustomUserService;
+import org.blogapp.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,82 +22,79 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.List;
+import javax.jws.soap.SOAPBinding;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Controller
 public class UserController {
     @Autowired
     private CustomUserService userService;
     @Autowired
-    private CustomSecurityService securityService;
-    @Autowired
-    private UserValidator userValidator;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
     private PostService postService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private SubscriberService subscriberService;
 
-    @GetMapping(value = "/registration")
-    public String registration(Model model) {
-        model.addAttribute("user", new User());
-        return "registration";
-    }
-
-    @PostMapping(value = "/registration")
-    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
-       userValidator.validate(user, bindingResult);
-       user.setRole(Role.USER);
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
-        userService.save(user);
-        securityService.autologin(user.getUsername(), user.getPassword());
-        return "redirect:/user_page";
-    }
-
-    @GetMapping(value = "/login")
-    public String login(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("loginError", "Your username and password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("loginError", "You have been logged out successfully.");
-        model.addAttribute("user", new User());
-
-        return "login";
-    }
-
-    @PostMapping(value = "/login")
-    public String login (Model model,
-                         @ModelAttribute("user") User user) {
-        UsernamePasswordAuthenticationToken authReq
-                = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), null);
-        Authentication auth = authenticationManager.authenticate(authReq);
-        SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(auth);
-
-        return "redirect:/user_page";
+    @GetMapping(value = "/about")
+    public String aboutPage(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("user", user);
+        return "about";
     }
 
     @GetMapping(value = {"/", "/index"})
     public String welcome(Model model) {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("name", loggedInUser.getName());
-        model.addAttribute("posts", postService.findAll());
-        model.addAttribute("listPost", postService.findAll());
+        if (loggedInUser.getName() != "anonymousUser") {
+            model.addAttribute("isAuthed", true);
+        } else {
+            model.addAttribute("isAuthed", false);
+        }
+
         return "index";
     }
 
     @GetMapping(value = {"/user_page/{id}"})
     public String user_page(@PathVariable("id") int id, Model model, @AuthenticationPrincipal User user) {
-        boolean isSame = !user.equals(userService.findUserById(id));
-        model.addAttribute("isSame", isSame);
+        boolean notSame = !user.equals(userService.findUserById(id));
+        model.addAttribute("notSame", notSame);
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("posts", postService.findPostsByAuthor(userService.findUserById(id)));
         model.addAttribute("subs", userService.findUserById(id).getSubscription());
         model.addAttribute("followers", userService.findUserById(id).getFollowers());
-        System.out.println("THE SIZE OF ARRAY: " + userService.findUserById(id).getFollowers().size());
         return "user_page";
+    }
+
+    @GetMapping(value = {"index/{email}"})
+    public ResponseEntity<Map> Confirmation(Model model, HttpServletRequest request, @AuthenticationPrincipal User user, @PathVariable("email") String email) throws MessagingException {
+        Map map = new HashMap<>();
+        if (subscriberService.findSubscriberByEmail(email) == null) {
+            Subscriber subscriber = new Subscriber();
+            subscriber.setEmail(email);
+            subscriber.setDate(new Date());
+            subscriberService.save(subscriber);
+
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":8080";
+            Mail mail = new Mail();
+
+            mail.setFrom("ecrire.moscow@gmail.com");
+            mail.setTo(user.getEmail());
+            mail.setSubject("confirm registration");
+
+            String htmlContent = "<h3 style = 'text-align: center'>Hello, " + user.getUsername() + "</h3> <br> " +
+                    "<div style='text-align: center'>" +
+                    "<p> you have subscribed to news from our site </p></div>";
+            mail.setContent(htmlContent);
+
+            emailService.sendSimpleMessage(mail);
+            map.put("answ", "success");
+        } else {
+            map.put("answ", "you have subscribed to us");
+        }
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping(value = {"/user_page"})
@@ -108,32 +104,18 @@ public class UserController {
         return new RedirectView("/user_page/{id}");
     }
 
-    @GetMapping(value = {"/", "/index"}, params = "search_posts")
-    public String searchPosts (Model model, @RequestParam("search_posts") String search_posts) {
-        List<Post> listPost = postService.findPostsByTopic(search_posts);
-        model.addAttribute("listPost", listPost);
-        return "/index";
+    @PostMapping(value = {"/user_page/{id}/follow"})
+    public String follow(Model model, @AuthenticationPrincipal User user, @PathVariable("id") int id) {
+        if (!userService.findUserById(id).equals(userService.findByUsername(user.getUsername()))) {
+            if (!userService.findUserById(id).getFollowers().contains(userService.findByUsername(user.getUsername()))) {
+                userService.findUserById(id).getFollowers().add(userService.findByUsername(user.getUsername()));
+            } else {
+                userService.findUserById(id).getFollowers().remove(userService.findByUsername(user.getUsername()));
+            }
+            userService.save(user);
+        }
+        return "redirect:/user_page/{id}";
+
     }
 
-    @PostMapping(value = {"/user_page/{id}/follow"})
-    public String follow (Model model, @AuthenticationPrincipal User user, @PathVariable("id") int id) {
-//        User followedUser = userService.findUserById(id);
-//        if (!user.getFollowers().contains(followedUser)) {
-//            user.getFollowers().add(followedUser);
-//        }
-//        else {
-//            System.out.println("I delete you");
-//            user.getFollowers().remove(followedUser);
-//        }
-        if (!userService.findByUsername(user.getUsername()).getFollowers().contains(userService.findUserById(id))) {
-            userService.findByUsername(user.getUsername()).getFollowers().add(userService.findUserById(id));
-            System.out.println("INTO IF: ");
-        }
-        else {
-            userService.findByUsername(user.getUsername()).getFollowers().remove(userService.findUserById(id));
-            System.out.println("INTO ELSE: ");
-        }
-        userService.save(user);
-        return "redirect:/user_page/{id}";
-    }
 }

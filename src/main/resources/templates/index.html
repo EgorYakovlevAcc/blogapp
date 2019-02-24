@@ -1,43 +1,294 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ecrire</title>
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <script src="js/bootstrap.js"></script>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/animate.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-<div th:insert="blocks/navbar"></div>
-<H2>It is the main page of blog</H2>
-<div class="row">
-    <div class="col-md-4 col-md-offset-1">
-        <div th:each="post: ${listPost}">
-            <div class="jumbotron">
-                <h1 class="display-4"><span th:text="${post.title}"</span> </h1>
-                <p class="lead"><span th:text="${post.topic}"></span></p>
-                <hr class="my-4">
-                <p th:href="@{/user_page/{id} (id = ${post.author.id})}"><span th:text="${post.author.username}"></span></p>
-                <p class="lead">
-                    <a th:href="@{/post/{id}(id = ${post.id})}">
-                        <div class="btn btn-primary btn-lg" role="button">read it</div>
-                    </a>
-                </p>
+<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__label  animated fadeInDown">
+                    ecrire
+                </div>
+            </div>
+            <div class="col-lg-7 ml-auto animated fadeInDown">
+                <nav>
+                    <ul class="menu d-flex justify-content-center">
+                        <li class="menu__item">
+                            <a href="/login">sign in</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/create_post">create post</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/about">about</a>
+                        </li>
+                        <li>
+                            <div class="menu__item" style="text-transform: lowercase"
+                                 th:if="${name} != 'anonymousUser'">
+                                <a href="/user_page"><p th:text="${name}"></a>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="offer  animated fadeInLeft">
+                    <div class="offer__title">
+                        <h4> create is simple </h4>
+                    </div>
+                    <div class="offer__intro">
+                        <h5>just do the first step</h5>
+                    </div>
+                    <p class="offer__text">
+                        create & design allow you to feel the world. <br> again
+                    </p>
+                    <ul class="icons d-flex">
+                        <li class="icons__item">
+                            <a href="https://vk.com/public177418957">
+                                <i class="fa fa-vk" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="icons__item">
+                            <a href="https://www.instagram.com/ecrire_blog/">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="icons__item">
+                            <a href="https://github.com/EgorYakovlevAcc/ecrire_front-end">
+                                <i class="fa fa-github" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-5 ml-auto animated fadeInRight" style="text-align: center">
+                <img src="img/cover.png" alt="cover" class="cover">
+                <a href="/registration">
+                    <button type="submit" class="sign_in_btn btn btn-primary">sign up</button>
+                </a>
             </div>
         </div>
     </div>
-</div>
-Logged user: <span sec:authentication="name"><span th:text="${name}"></span></span>
+</header>
 
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-12">
+                <div class="title">
+                    <h2 class="title__main">
+                        features
+                    </h2>
+                    <p class="title__text">
+                        what you can do here
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="feature d-flex">
+                    <i class="fa fa-user-plus feature__icon" aria-hidden="true"></i>
+                    <div class="feature__block">
+                        <h3 class="feature__title">
+                            momentum registration
+                        </h3>
+                        <p class="feature__text">
+                            spend 1 minute for registration
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="feature d-flex">
+                    <i class="fa fa-users feature__icon" aria-hidden="true"></i>
+                    <div class="feature__block">
+                        <h3 class="feature__title">
+                            follow & read
+                        </h3>
+                        <p class="feature__text">
+                            follow to intersing people and read only neccesary posts
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="feature d-flex">
+                    <i class="fa fa-pencil feature__icon" aria-hidden="true"></i>
+                    <div class="feature__block">
+                        <h3 class="feature__title">
+                            write
+                        </h3>
+                        <p class="feature__text">
+                            every post you want
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="handlings" class="handlings">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-12">
+                <div class="handling d-flex">
+                    <div class="col lg-7">
+                        <div class="handling__image">
+                            <img src="img/cover1.jpg" alt="cover1">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 ml-auto">
+                        <div class="title">
+                            <div class="title__main">
+                                <h3>
+                                    expand the boundaries
+                                </h3>
+                            </div>
+                            <div class="title__text">
+                                look beyond the ordinary
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col lg-12">
+                <div class="handling d-flex">
+                    <div class="col-lg-5">
+                        <div class="title">
+                            <div class="title__main">
+                                <h3>
+                                    don't be afraid
+                                </h3>
+                            </div>
+                            <div class="title__text">
+                                see what others do not see
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col lg-7">
+                        <div class="handling__image" style="text-align: right">
+                            <img src="img/cover2.jpg" alt="cover2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col lg-12">
+                <div class="handling d-flex">
+                    <div class="col lg-7">
+                        <div class="handling__image">
+                            <img src="img/cover3.jpg" alt="cover3">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 ml-auto">
+                        <div class="title">
+                            <div class="title__main">
+                                <h3>
+                                    think widely
+                                </h3>
+                            </div>
+                            <div class="title__text">
+                                do not limit your horizons
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
+<section id="touch" class="touch" th:if ="${isAuthed}">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-12">
+                <div class="title">
+                    <h2 class="title__main">
+                        keep in touch
+                    </h2>
+                    <p class="title__text">
+                        you can get news to your email
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="form">
+        <div class="col-lg-10 m-auto">
+            <input type="email" placeholder="input your email" class="form__input" reqired="true" id="emailInput">
+            <button type="button" class="form__btn btn btn-primary" onclick='AjaxSubscribe()'>submit</button>
+        </div>
+    </form>
+</section>
+
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="credits">
+                    Egor Yakovlev <br> Russia <br> 2019
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="contacts">
+                    yakovlev.es@phystech.edu <br> Russia, Moscow
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script th:inline="javascript">
+    var _csrf_token = [[${_csrf.token}]];
+    var _csrf_param_name = [[${_csrf.parameterName}]];
+
+    var requestData = {};
+    requestData[_csrf_param_name] = _csrf_token;
+    function AjaxSubscribe() {
+        let requestData = {};
+        requestData[_csrf_param_name] = _csrf_token;
+        email = $("#emailInput").val();
+
+        $.ajax({
+            type: "GET",
+            url: "/index/" + email,
+            // data: requestData,
+            beforeSend: function () {
+                alert('data is send')
+            },
+            success: function (body) {
+
+            }
+        });
+    }
+</script>
 </body>
 </html>

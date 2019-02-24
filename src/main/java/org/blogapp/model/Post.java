@@ -22,6 +22,8 @@ public class Post {
     private int id;
     private String title;
     private String topic;
+    @Lob
+    @Column(columnDefinition="TEXT")
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)

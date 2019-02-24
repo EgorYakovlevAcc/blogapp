@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,9 @@ import java.util.List;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int comm_id;
+    private int commId;
     private String message;
+    private int level;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
@@ -33,13 +35,12 @@ public class Comment {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-//    @OneToMany(mappedBy = "subComments", cascade = CascadeType.ALL)
-//    private List<Comment> subComments;
+    @ManyToOne
+    private Comment parent;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "post_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private  Comment parent;
+    @OneToMany
+    private List<Comment> subcomments;
 
     private Date date;
+
 }

@@ -1,0 +1,60 @@
+.avatar {
+
+}
+
+.credits {
+
+}
+
+.profile {
+    margin: 50px;
+    padding: 50px;
+    color: #fffec5;
+}
+
+.profile__item {
+    color:#fffea9;
+}
+
+.posts {
+    background: #000124;
+}
+
+.btn_show {
+    border-radius: 5px;
+    color: #fffea9;
+    font-size: 15px;
+    background: #000124;
+    font-family: 'Slabo 27px', serif;
+    width: 126px;
+    padding: 15px;
+    border: none;
+}
+
+.btn_edit {
+    border-radius: 5px;
+    color: #fffea9;
+    font-size: 15px;
+    background: #000124;
+    font-family: 'Slabo 27px', serif;
+    width: 126px;
+    padding: 15px;
+    border: none;
+}
+
+.posts {
+    margin: 50px;
+    padding: 50px;
+}
+
+.post__item {
+    margin-top: 20px;
+    color: #fffea9;
+    background: #333333;
+    padding: 20px;
+    border-bottom: 4px solid #fffea9;
+}
+
+.avatar {
+    border-radius: 10px;
+}

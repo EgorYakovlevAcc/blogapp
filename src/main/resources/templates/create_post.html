@@ -1,45 +1,133 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<body>-->
+<!--<div th:insert="blocks/navbar"></div>-->
+
+<!--<h1>New posts</h1>-->
+<!--<form name='create_post_form' th:action="@{/create_post}" th:value="post" enctype="utf8" method="post">-->
+    <!--<table>-->
+        <!--<tr>-->
+            <!--<td>Post:</td>-->
+            <!--<tr>-->
+                <!--Title:-->
+                <!--<input type="text" th:field="${post.title}"/>-->
+                <!--<br>-->
+            <!--</tr>-->
+            <!--<tr>Topic: <br>-->
+                <!--<input type="text" th:field="${post.topic}"/>-->
+                <!--<br>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--Text: <br>-->
+                <!--<textarea id="input" name="input" th:field="${post.text}"></textarea>-->
+                <!--<br>-->
+            <!--</tr>-->
+
+        <!--<tr>-->
+            <!--<td><input name="create_post_button" type="submit" value="create" /></td>-->
+        <!--</tr>-->
+
+    <!--</table>-->
+<!--</form>-->
+
+
+<!--<script th:inline="javascript">-->
+    <!--$(document).ready(function () {-->
+        <!--$("#input").cleditor();-->
+    <!--});-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>about blog</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="../styles/jquery.cleditor.css" />
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.cleditor.min.js"></script>
     <title>create new post</title>
+    <script th:inline="javascript">
+        $(document).ready(function () { $("#input").cleditor(); });
+    </script>
+    <title>create post</title>
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <script src="js/bootstrap.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../styles/animate.css">
+    <link rel="stylesheet" href="../styles/profile.css">
+    <link rel="stylesheet" href="../styles/forms.css">
+    <link rel="stylesheet" href="../styles/post.css">
+    <link rel="stylesheet" href="../styles/comment.css">
+    <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
-<div th:insert="blocks/navbar"></div>
+<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-3">
+                <div class="header__label">
+                    <a href="/"> ecrire </a>
+                </div>
+            </div>
+            <div class="col lg-5 ml-auto">
+                <nav>
+                    <ul class="menu d-flex justify-content-center">
+                        <li class="menu__item">
+                            <a href="/logout">logout</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/news">news</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/about">about</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 
-<h1>New posts</h1>
-<form name='create_post_form' th:action="@{/create_post}" th:value="post" enctype="utf8" method="post">
-    <table>
-        <tr>
-            <td>Post:</td>
-            <tr>
-                Title:
-                <input type="text" th:field="${post.title}"/>
-                <br>
-            </tr>
-            <tr>Topic: <br>
-                <input type="text" th:field="${post.topic}"/>
-                <br>
-            </tr>
-            <tr>
-                Text: <br>
-                <textarea th:field="${post.text}"/>
-                <br>
-            </tr>
-
-        <tr>
-            <td><input name="create_post_button" type="submit" value="create" /></td>
-        </tr>
-
-    </table>
+</header>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 ml auto">
+                <form name='create_post_form' th:action="@{/create_post}" th:value="post" enctype="utf8" method="post">
+                    <input type="text" th:field="${post.title}" placeholder="title"/>
+                    <input type="text" th:field="${post.topic}" placeholder="topic"/>
+                    <textarea id="input" name="input" th:field="${post.text}"></textarea>
+                    <button type="submit" class="sign_in_btn ml-auto" style="width: 130px; margin: 20px">create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-6">
+                <div class="credits">
+                    Egor Yakovlev <br> Russia <br> 2019
+                </div>
+            </div>
+            <div class="col lg-6">
+                <div class="contacts">
+                    yakovlev.es@phystech.edu <br> Russia, Moscow
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

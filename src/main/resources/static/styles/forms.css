@@ -1,0 +1,34 @@
+.form {
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 50px;
+    width: 400px;
+    background: #fffea9;
+    text-align: center;
+    border-radius: 5px;
+}
+
+input {
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px;
+}
+
+.login_btn {
+    font-family: 'Slabo 27px', serif;
+    background: #000124;
+    color: #fffea9;
+    font-size: 15px;
+    border-radius: 5px;
+    width: 126px;
+    padding: 15px 0;
+    margin-left: 15px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.title_form {
+    background: #000124;
+    color: #fffea9;
+}

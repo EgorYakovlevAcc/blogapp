@@ -1,8 +1,9 @@
 package org.blogapp.services.User;
 
-public interface SecurityServiceInterface {
-    String findLoggedInUsername();
+import javax.servlet.http.HttpServletRequest;
 
-    void autologin(String username, String password);
+public interface SecurityServiceInterface {
+
+    void autologin(HttpServletRequest request, String username, String password);
 
 }

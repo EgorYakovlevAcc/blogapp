@@ -35,6 +35,11 @@ public class PostService implements PostServiceInterface {
     }
 
     @Override
+    public void deletePostById(Integer id) {
+        repository.deletePostById(id);
+    }
+
+    @Override
     public List<Post> findAll() {
         return repository.findAll();
     }

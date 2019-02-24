@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>post</title>
+
+    <link rel="stylesheet" href="styles/bootstrap.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/animate.css">
+    <link rel="stylesheet" href="styles/profile.css">
+    <link rel="stylesheet" href="styles/forms.css">
+    <link rel="stylesheet" href="styles/post.css">
+    <link rel="stylesheet" href="styles/news.css">
+    <link rel="stylesheet" href="styles/comment.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-3">
+                <div class="header__label">
+                    <a href="/"> ecrire </a>
+                </div>
+            </div>
+            <div class="col lg-5 ml-auto">
+                <nav>
+                    <ul class="menu d-flex justify-content-center">
+                        <li class="menu__item">
+                            <a href="/logout">logout</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/create_post">create post</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/user_page">[[${name}]]</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/about">about</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</header>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 ml-auto">
+                <div class="list__posts">
+                    <ul th:each="post : ${listPost}">
+                        <li class="news__item">
+                            <p th:text="${post.topic}"></p>
+                            <p th:text="${post.title}"></p>
+                            <a th:href="@{/post/{id}(id = ${post.id})}"><p>read all</p></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 ml-auto">
+                <div class="list__user">
+                    <ul th:each="u : ${listUser}">
+                        <li class="user__item">
+                            <a th:href="@{/user_page/{id}(id = ${u.id})}">
+                                <p th:text="${u.username}" ></p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-6">
+                <div class="credits">
+                    Egor Yakovlev <br> Russia <br> 2019
+                </div>
+            </div>
+            <div class="col lg-6">
+                <div class="contacts">
+                    yakovlev.es@phystech.edu <br> Russia, Moscow
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

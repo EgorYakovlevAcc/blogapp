@@ -1,0 +1,276 @@
+/* Спецификация*/
+
+body{
+    font-family: 'Slabo 27px', serif;
+    background: #333333;
+}
+
+ul, li {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Major Mono Display', monospace;
+    color: #fffea9;
+}
+.title {
+    padding-top: 100px;
+    text-align: center;
+    padding-bottom: 70px;
+}
+.title__main {
+    color: #fffea9;
+}
+.title__text {
+    margin: 0 auto;
+    color: #fffec5;
+}
+/* первый экран */
+nav {
+    text-align: center;
+    height: 50px;
+}
+.header {
+    color: #fffea9;
+    padding-top: 58px;
+    padding-bottom: 105px;
+    background-image: url("../img/cover_urban.jpg");
+}
+
+.header__label {
+    height: 50px;
+}
+
+.header__label a {
+    color: #fffea9;
+}
+.header__label a:hover {
+    text-decoration: none;
+}
+
+.menu__item  a{
+    background: #000124;
+}
+
+.header__label {
+    font-size: 30px;
+    font-family: 'Major Mono Display', monospace;
+    background: #000124;
+    width: 133px;
+}
+
+.menu {
+    margin: 0 auto;
+    padding-top: 13px;
+    font-family: 'Major Mono Display', monospace;
+    background: #000124;
+    height: 50px;
+}
+
+.menu__item a:hover{
+    text-decoration: none;
+    color: #fffea9;
+    font-size: 20px;
+}
+
+.menu__item {
+    margin: 0 20px;
+}
+.menu__item a{
+    font-size: 15px;
+    color: #fffea9;
+}
+
+.offer {
+    margin-top: 117px;
+}
+.offer__title {
+ margin-bottom: 6px;
+}
+
+.offer__intro {
+
+
+}
+.offer__text {
+    width: 400px;
+    margin-top: 20px;
+
+}
+
+.icons__item {
+    margin-right: 30px;
+}
+
+.icons__item a {
+    color: #fffea9;
+    transition: all 0.3s ease;
+}
+
+.icons__item a:hover{
+    text-decoration: none;
+    color: #0069d9;
+}
+
+.cover {
+    display: block;
+    margin: 60px auto 0;
+    width: 400px;
+}
+
+.sign_in_btn {
+    border-radius: 5px;
+    color: #fffea9;
+    font-size: 15px;
+    background: #000124;
+    font-family: 'Slabo 27px', serif;
+    width: 126px;
+    padding: 15px;
+    border: none;
+}
+
+/* второй экран */
+
+.feature {
+    margin-bottom: 80px;
+}
+.feature__icon {
+    font-size: 30px;
+    margin-right: 37px;
+    color: #fffea9;
+}
+
+.feature__block {
+
+}
+
+.feature__title {
+    color: #fffea9;
+}
+
+.feature__text {
+    color: #fffec5;
+}
+
+/* третий экран */
+.touch {
+    background: #333333;
+    padding-bottom: 50px;
+}
+
+.form {
+    text-align: center;
+
+}
+
+.form__input {
+    background: #fff;
+    font-size: 15px;
+    font-family: 'Slabo 27px', serif;
+    border-radius: 5px;
+    width: 580px;
+    padding: 10px 0;
+    border: 0;
+    padding-left: 23px;
+    outline: none;
+}
+
+.form__btn {
+    font-family: 'Slabo 27px', serif;
+    background: #000124;
+    color: #fffea9;
+    font-size: 15px;
+    border-radius: 5px;
+    width: 126px;
+    padding: 15px 0;
+    margin-left: 15px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+/* четвёртый экран */
+
+.footer {
+    background: #000124;
+    padding: 20px 94px;
+}
+.credits {
+    color: #fffea9;
+    font-size: 15px;
+    text-align: center;
+    wight: 184px;
+    margin: 0 auto;
+ }
+
+.contacts {
+    color: #fffea9;
+    font-size: 15px;
+    text-align: center;
+    wight: 184px;
+    margin: 0 auto;
+}
+
+/*media requests*/
+
+@media screen and (max-width: 992px) {
+    .header__label {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .offer {
+        text-align: center;
+    }
+
+    .offer__text {
+        text-align: center;
+        margin: 20px auto;
+        width: auto;
+    }
+
+    .icons {
+        justify-content: center;
+    }
+
+    .icons__item:nth-child(3) {
+        margin-right: 0;
+    }
+
+    .form__input {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .form__btn {
+        width: 100%;
+        margin: 10px 0 auto;
+    }
+
+    .title__text {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .cover {
+        width: 100%;
+    }
+    .menu {
+        flex-direction: column;
+    }
+}
+
+.handlings {
+    background: #000124;
+}
+
+.handling {
+    border-top: 4px solid #fffea9;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+

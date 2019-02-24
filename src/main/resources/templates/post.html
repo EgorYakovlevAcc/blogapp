@@ -1,111 +1,256 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <title th:text="${post.title}"></title>
-    <link rel="stylesheet" type="text/css" th:href="@{styles/comment.css}"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>post</title>
+
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../styles/animate.css">
+    <link rel="stylesheet" href="../styles/profile.css">
+    <link rel="stylesheet" href="../styles/forms.css">
+    <link rel="stylesheet" href="../styles/post.css">
+    <link rel="stylesheet" href="../styles/comment.css">
+    <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
-<div th:insert="blocks/navbar"></div>
-<table class="table borderless">
-    <tbody>
-        <tr>
-            <td>
-               Topic
-            </td>
-            <td th:text="${post.topic}">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Title
-            </td>
-            <td th:text="${post.title}">
-            </td>
-        </tr>
-        <tr>
-            <td>
-               Text
-            </td>
-            <td th:text="${post.text}">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Author
-            </td>
-            <td th:text="${post.author.username}">
-            </td>
-        </tr>
-    </tbody>
-</table>
-<div th:if="${isAuthor}">
-    <input type="button" value="edit">
-</div>
-<div class="col-md-1 col-md-offset-11">
-    <!---->
-    likes
-    <form  th:action="@{/post/{id}/like (id = ${post.id})}" method="post">
-        <button type="submit" class="btn btn-outline-warning"><span th:text="${likes}" id="likesLabel"></span></button>
-    </form>
-</div>
-<div class="col-md-2 col-md-offset-10">
-    <div class="bg-primary">
-        <p class="text-center">
-            Views: <span th:text="${views}"></span>
-        </p>
+<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-3">
+                <div class="header__label">
+                    <a href="/"> ecrire </a>
+                </div>
+            </div>
+            <div class="col lg-5 ml-auto">
+                <nav>
+                    <ul class="menu d-flex justify-content-center">
+                        <li class="menu__item">
+                            <a href="/logout">logout</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/user_page" th:text="${user.username}"></a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/news">news</a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="/about">about</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
-</div>
-<br>
-<H3>Comments: </H3> <br>
-    <div class="comments">
-        <ul th:each="comment : ${comments}">
-            <li th:text="${comment.message}"></li>
-        </ul>
-    </div>
-<form th:value="comment" th:action="@{/add_comment/{id}(id=${post.id})}" method="post">
-    <input type="text" th:field="${comment.message}" id="message" name="message">
-    <button id="sendComment">send</button>
-</form>
-<button id="btn" onclick="Ajax()">button</button>
-<span id="fieldM"></span>
-<div id="cont">
 
-</div>
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</header>
+<section id="post" class="post">
+    <div class="container">
+        <div class="row">
+            <ul class="post__list">
+                <li>
+                    <div class="col lg-12">
+                        <div class="post__topic">
+                            <h3 th:text="${post.topic}"></h3>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="col lg-12">
+                        <div class="post__title">
+                            <h4 th:text="${post.title}"></h4>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="col lg-12">
+                        <!--th:onload="'javascript:showText(\''+ ${post.text} +'\');'"-->
+                        <div id="post__text" class="post__text">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="under__line d-flex">
+                        <div class="col-lg-4" th:if="${isAuthor}">
+                            <a th:href="@{/edit_post/{id}(id = ${post.id})}">
+                            <button type="button" class="btn_edit_post btn btn-primary">
+                                edit post
+                            </button>
+                            </a>
+                        </div>
+                        <div class="col-lg-5 ml-auto text-right">
+                            <span th:text="'views: ' + ${views}" class="view__label"></span>
+                            <button type="submit" id="like__btn" class="btn btn-outline-warning like__btn"
+                                    th:onclick="'javascript:pressedBtnLiked(\''+ ${isUserLiked} +'\');'">
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="col-lg-1 ml-auto likes__label">
+                        <span th:text="${likes}" id="likesLabel"></span>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+</section>
+<section class="comments">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <ul class="comments__items" id="comments__items">
+                    <li class="comment__item" th:id="'comment__item' + ${comment.commId}"
+                        th:each="comment : ${comments}">
+                        <!--<i class="fa fa-times-circle close__icon" aria-hidden="true" style="alignment: right"-->
+                        <!--th:onclick="'javascript:AjaxDeleteComment(\''+ ${comment.commId} +'\');'"></i>-->
+                        <div class="comment__text">
+                            <p th:text="${comment.message}"></p>
+                            <span th:text="${comment.author.username}"></span>
+                        </div>
+                        <!--<i class="fa fa-commenting-o add_submessage" aria-hidden="true" style="margin-left: 365px"-->
+                        <!--th:onclick="'javascript:setFocusInputSubComment(\''+ ${comment.commId} +'\');'"></i>-->
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4 ml-auto">
+                <!--th:action="@{/add_comment/{id}(id=${post.id})}"-->
+                <form class="comment__input">
+                    <input type="text" id="comment__form">
+                    <button type="button" class="comment__btn btn btn-primary" id="comment__btn"
+                            onclick="AjaxComment('add_comment')">send
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col lg-6">
+                <div class="credits">
+                    Egor Yakovlev <br> Russia <br> 2019
+                </div>
+            </div>
+            <div class="col lg-6">
+                <div class="contacts">
+                    yakovlev.es@phystech.edu <br> Russia, Moscow
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script th:inline="javascript">
-    function Ajax() {
-        /*<![CDATA[*/
-        var _csrf_token = [[${_csrf.token}]];
-        var _csrf_param_name = [[${_csrf.parameterName}]];
-        /*]]>*/
-        var requestData = {
-            'paramA': 123,
-            'paramB': 333
-        };
-        requestData[_csrf_param_name] = _csrf_token; // Adds the token
 
-        var ident = [[${post.id}]];
+    var ident = [[${post.id}]];
+    var _csrf_token = [[${_csrf.token}]];
+    var _csrf_param_name = [[${_csrf.parameterName}]];
+
+    var requestData = {};
+    requestData[_csrf_param_name] = _csrf_token;
+
+    window.onload(showText([[${post.text}]]));
+
+    function showText(post_text) {
+        if ([[${isUserLiked}]]) {
+            $(".likes__label").css("background", "#ffc107");
+        }
+        else {
+            $(".likes__label").css("background", "#000124");
+        }
+        $("#post__text").html(post_text);
+    }
+
+    function calcElements(className) {
+        return $("." + className).length;
+    }
+
+    function setFocusInputSubComment(commid) {
+        // $("#" + "comment__item" + commid).append("<input id = 'inputId' type='text' autofocus onblur='outFocus()'/>");
+        // $("#" + "comment__item" + commid).append("<button id = 'btnId' type='submit' onclick='btnPressed()'>send</button>");
+        // $("#inputId").focus();
+    }
+
+    function outFocus() {
+        // $("#inputId").detach();
+        // $("#btnId").detach();
+    }
+
+    function btnPressed() {
+        $("#inputId").detach();
+        $("#btnId").detach();
+    }
+
+    function pressedBtnLiked(isLiked) {
+        Ajax(isLiked);
+    }
+
+    function Ajax(isLiked) {
         $.ajax({
             type: "POST",
-            url:  ident + "/like",
+            url: ident + "/like",
             data: requestData,
             success: function (body) {
                 $("#likesLabel").html(body.value);
+                if (body.isLike) {
+                    $(".likes__label").css("background", "#ffc107");
+                }
+                else {
+                    $(".likes__label").css("background", "#000124");
+                }
             }
         });
+    }
+
+    function addSubComment(commId) {
+        let comment__form = document.getElementById("comment__form");
+        let requestData = {};
+        requestData[_csrf_param_name] = _csrf_token;
+        requestData ["message"] = comment__form.value;
+        $.ajax({
+            type: "POST",
+            url: "post/add_subcomment/" + commId,
+            data: requestData,
+            success: function () {
+                $("#comment__item_" + commId).empty();
+            }
+        });
+    }
+
+    function AjaxComment(command) {
+        let comment__form = document.getElementById("comment__form");
+        let requestData = {};
+        requestData[_csrf_param_name] = _csrf_token;
+        requestData ["message"] = comment__form.value;
+
+        $.ajax({
+            type: "POST",
+            url: "/" + command + "/" + ident,
+            data: requestData,
+            success: function (comment) {
+                $("#comment__form").val("");
+                let responseContent = "";
+                identif = 'comment__item' + comment.id
+                responseContent = "<li class='comment__item' id=" + identif +
+                    "                        >\n" +
+                    "                        <div class='comment__text'>\n" +
+                    "                            <p>" + comment.text + "</p>\n" +
+                    "                            <span>" + comment.author + "</span>\n" +
+                    "                        </div>\n" +
+                    "                    </li>"
+                $(".comments__items").append(responseContent);
+            }
+        });
+
     }
 </script>
 </body>

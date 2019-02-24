@@ -12,6 +12,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     Post findPostById (Integer id);
     List<Post> findPostsByTopic(String topic);
     List<Post> findPostsByAuthor(User author);
+    void deletePostById (Integer id);
 
     @Override
     List<Post> findAll();

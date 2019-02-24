@@ -1,0 +1,58 @@
+.post__topic, .post__title {
+    background: #000124;
+    color: #fffea9;
+    margin: 10px;
+    padding: 10px;
+}
+.post__topic {
+    text-align: left;
+}
+.post__title {
+    text-align: right;
+}
+.post__text {
+    width: 700px;
+    background: #fffea9;
+    color: #000124;
+    padding: 10px;
+    margin: 10px;
+}
+
+.post__list {
+    margin: 0 auto;
+}
+
+.view__label {
+    margin-right: 30px;
+    background: #000124;
+    color: #fffea9;
+    padding: 7px;
+    border-radius: 5px;
+}
+
+.like__btn {
+    border-radius: 5px;
+    color: #fffea9;
+    font-size: 15px;
+    background: #000124;
+    font-family: 'Slabo 27px', serif;
+    border: none;
+}
+
+.btn_edit_post {
+    border-radius: 5px;
+    color: #fffea9;
+    font-size: 15px;
+    background: #000124;
+    font-family: 'Slabo 27px', serif;
+    border: none;
+}
+.likes__label {
+    text-align: center;
+    color: #fffea9;
+    font-size: 15px;
+    border-radius: 5px;
+    font-family: 'Slabo 27px', serif;
+    padding: 10px;
+    margin: 10px;
+}
